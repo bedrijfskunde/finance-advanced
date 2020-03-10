@@ -32,28 +32,18 @@ $TW = CW * (1 + R)^{t}$
 $CW = \dfrac{TW}{(1 + R)^{t}}$
 
 ```{r nvd3plot, results='asis', comment = NA, message = F, echo = F, cache=FALSE}
-library(rCharts)
+library(plotly)
 CFs <- 1000
 DiscR <- 0.05
 Time <- 300
 
-PV <- sapply(c(1:Time), function(x) CFs*(1+DiscR)^(-1*x))
+PV <- sapply(seq(from = 1, to = Time, by = 20), function(x) CFs*(1+DiscR)^(-1*x))
 TotPV <- sum(PV)
-PVs <- data.frame(Time = c(1:Time),PV)
+PVs <- data.frame(Time = seq(from = 1, to = Time, by = 20), PV)
 
-h1 <- rCharts::Highcharts$new()
-h1$chart(type='line')
-h1$series(data = PVs$PV, marker= list(symbol = 'circle'))
-h1$series(data = PVs$PV, marker= list(symbol = 'circle'))
-# h1 <- hPlot(x = 'Time', y = 'PV', data = PVs, type = 'line')
-h1$title(text = paste0('Verloop contante waarde in tijd met C = ', CFs, ' en R = ', DiscR*100, '%'))
-h1$tooltip(formatter = "#! function(){return('<b>t: </b>' + this.x + '<br/>' + '<b>PV: </b>' + this.y);} !#")
-h1$colors(c('rgb(255,85,0)', 'rgb(255,85,0)'))
-h1$legend(enabled = FALSE)
-h1$xAxis(categories = PVs$Time, tickInterval = 50, title = list(text = 'Tijd'))
-h1$yAxis(title = list(text = 'Contante Waarde'))
-h1$addParams(width = 700, height = 400, dom = 'chart1')
-h1$print(include_assets=TRUE)
+fig <- plot_ly(PVs, x = ~Time, y = ~PV, type = 'scatter', mode = 'lines', line = list(color = '#FC7E00', width = 4), marker = list(color = '#FC7E00', width = 12))
+
+fig
 ```
 
 ## 3. Contante waarde gelijke reeks
