@@ -37,9 +37,9 @@ CFs <- 1000
 DiscR <- 0.05
 Time <- 300
 
-PV <- sapply(seq(from = 0, to = Time, by = 20), function(x) CFs*(1+DiscR)^(-1*x))
+PV <- sapply(seq(from = 0, to = Time, by = 10), function(x) CFs*(1+DiscR)^(-1*x))
 TotPV <- sum(PV)
-PVs <- data.frame(Time = seq(from = 0, to = Time, by = 20), PV)
+PVs <- data.frame(Time = seq(from = 0, to = Time, by = 10), PV)
 
 fig <- plot_ly(PVs, x = ~Time, y = ~PV, type = 'scatter', mode = 'lines', line = list(color = '#FC7E00', width = 4), marker = list(color = '#FC7E00', width = 12))
 
